@@ -3,7 +3,9 @@ import axios from 'axios';
 import { leftPad } from './utils/str-utils.js';
 
 function responseHandler({ data }) {
-  (data.centers || []).forEach(center => console.log(center));
+  (data.centers || [])
+    .filter(({ sessions }) => !!(sessions || []).filter(({ available_capacity: capacity }) => !!capacity).length)
+    .forEach(center => console.log(center));
 }
 
 function errorHandler(e) {
