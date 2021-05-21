@@ -14,9 +14,7 @@ const columns = [
 ];
 
 function printHeader() {
-  console.log(
-    columns.reduce((hdrStr, col) => `${hdrStr}${strPad(startCase(col.key), col.length, 1, ' ', 'right')}`, '')
-  );
+  console.log(columns.reduce((hdrStr, col) => `${hdrStr}${strPad(startCase(col.key), col.length, 1, ' ', 'right')}`, ''));
   console.log(new Array(columns.reduce((a, b) => a + b.length, 1)).join('='));
 }
 
@@ -97,5 +95,5 @@ export function checkCowin(age = 18, district = 266, dose) {
   const todayDate = new Date();
   const todayStr = `${todayDate.getDate()}-${leftPad(todayDate.getMonth() + 1, 2, 0, '0')}-${todayDate.getFullYear()}`;
 
-  checkForDate(district, todayStr).then(responseHandler(age, dose)).catch(errorHandler);
+  checkForDate(district, todayStr).then(responseHandler(+age, +dose)).catch(errorHandler);
 }
