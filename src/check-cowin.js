@@ -95,5 +95,8 @@ export function checkCowin(age = 18, district = 266, dose) {
   const todayDate = new Date();
   const todayStr = `${todayDate.getDate()}-${leftPad(todayDate.getMonth() + 1, 2, 0, '0')}-${todayDate.getFullYear()}`;
 
+  console.log(`Checking availability of slots for${!!(+dose) ? ' Dose ' + dose : ''} district ${district} and age-limit ${age}`);
+  console.log('');
+
   checkForDate(district, todayStr).then(responseHandler(+age, +dose)).catch(errorHandler);
 }
