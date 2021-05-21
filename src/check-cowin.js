@@ -2,14 +2,22 @@ import axios from 'axios';
 
 import { leftPad } from './utils/str-utils.js';
 
-function responseHandler(ageLimit) {
+function responseHandler(ageLimit, doseNumber) {
+  let filterPredicate;
+
+  if (!doseNumber) {
+    filterPredicate = ({ available_capacity, min_age_limit }) => !!available_capacity && min_age_limit <= ageLimit;
+  } else {
+    filterPredicate = session => !!session[`available_capacity_dose${doseNumber}`] && session.min_age_limit <= ageLimit;
+  }
+
   return ({ data }) => {
     const availableSlots = (data.centers || [])
       .map(({ center_id: cId, name, fee_type: fee, sessions }) => ({
         cId,
         name,
         fee,
-        sessions: sessions.filter(({ available_capacity, min_age_limit }) => !!available_capacity && min_age_limit <= ageLimit) || []
+        sessions: sessions.filter(filterPredicate) || []
       }))
       .filter(({ sessions }) => sessions.length);
 
@@ -38,9 +46,9 @@ function checkForDate(district, date) {
   });
 }
 
-export function checkCowin(age = 18, district = 266) {
+export function checkCowin(age = 18, district = 266, dose) {
   const todayDate = new Date();
   const todayStr = `${todayDate.getDate()}-${leftPad(todayDate.getMonth() + 1, 2, 0, '0')}-${todayDate.getFullYear()}`;
 
-  checkForDate(district, todayStr).then(responseHandler(age)).catch(errorHandler);
+  checkForDate(district, todayStr).then(responseHandler(age, dose)).catch(errorHandler);
 }
