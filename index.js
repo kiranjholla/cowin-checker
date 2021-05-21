@@ -6,10 +6,10 @@ const [, , age, dose, district] = process.argv;
 let error = '';
 
 // Validate Age
-if (!age) {
-  error = `${error}Invalid arguments! Age must be provided.\n`;
-} else if (!isNumeric(age)) {
-  error = `${error}Invalid arguments! Invalid value provided for Age.\n`;
+if (!!age) {
+  if (!isNumeric(age) || (+age !== 18 && +age !== 45)) {
+    error = `${error}Invalid arguments! Invalid value provided for Age.\n`;
+  }
 }
 
 // Validate District
