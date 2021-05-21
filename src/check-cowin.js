@@ -2,10 +2,23 @@ import axios from 'axios';
 
 import { leftPad } from './utils/str-utils.js';
 
-function responseHandler({ data }) {
-  (data.centers || [])
-    .filter(({ sessions }) => !!(sessions || []).filter(({ available_capacity: capacity }) => !!capacity).length)
-    .forEach(center => console.log(center));
+function responseHandler(ageLimit) {
+  return ({ data }) => {
+    const availableSlots = (data.centers || [])
+      .map(({ center_id: cId, name, fee_type: fee, sessions }) => ({
+        cId,
+        name,
+        fee,
+        sessions: sessions.filter(({ available_capacity, min_age_limit }) => !!available_capacity && min_age_limit <= ageLimit) || []
+      }))
+      .filter(({ sessions }) => sessions.length);
+
+    if (availableSlots.length) {
+      availableSlots.forEach(center => console.log(center));
+    } else {
+      console.log(`Found no slots for age limit: ${ageLimit}+`);
+    }
+  };
 }
 
 function errorHandler(e) {
@@ -30,5 +43,6 @@ export function checkCowin() {
   const todayStr = `${todayDate.getDate()}-${leftPad(todayDate.getMonth() + 1, 2, 0, '0')}-${todayDate.getFullYear()}`;
 
   const district = 266;
-  checkForDate(district, todayStr).then(responseHandler).catch(errorHandler);
+  const age = 18;
+  checkForDate(district, todayStr).then(responseHandler(age)).catch(errorHandler);
 }
