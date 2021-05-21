@@ -1,4 +1,4 @@
-function strPad(data, chars, margin = 0, paddingChar = ' ', align = 'left') {
+export function strPad(data, chars, margin = 0, paddingChar = ' ', align = 'left') {
   const marginPadding = margin > 0 ? new Array(margin + 1).join(paddingChar) : '';
   let charsPadding = '';
   let output = `${data}`;
