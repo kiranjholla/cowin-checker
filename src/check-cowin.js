@@ -38,11 +38,9 @@ function checkForDate(district, date) {
   });
 }
 
-export function checkCowin() {
+export function checkCowin(age = 18, district = 266) {
   const todayDate = new Date();
   const todayStr = `${todayDate.getDate()}-${leftPad(todayDate.getMonth() + 1, 2, 0, '0')}-${todayDate.getFullYear()}`;
 
-  const district = 266;
-  const age = 18;
   checkForDate(district, todayStr).then(responseHandler(age)).catch(errorHandler);
 }
