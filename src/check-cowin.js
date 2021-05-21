@@ -4,9 +4,9 @@ import { printRow } from './utils/print-utils.js';
 import { leftPad, strPad } from './utils/str-utils.js';
 
 const columns = [
-  { key: 'name', length: 40, align: 'left' },
+  { key: 'name', length: 35, align: 'left' },
   { key: 'fee', length: 6, align: 'left' },
-  { key: 'date', length: 15, align: 'right' },
+  { key: 'date', length: 12, align: 'right' },
   { key: 'vaccine', length: 15, align: 'left' },
   { key: 'age', length: 5, align: 'right' },
   { key: 'dose1', length: 8, align: 'right' },
@@ -15,7 +15,7 @@ const columns = [
 
 function printHeader() {
   console.log(
-    columns.reduce((hdrStr, col) => `${hdrStr}${strPad(startCase(col.key), col.length, 2, ' ', 'right')}`, '')
+    columns.reduce((hdrStr, col) => `${hdrStr}${strPad(startCase(col.key), col.length, 1, ' ', 'right')}`, '')
   );
   console.log(new Array(columns.reduce((a, b) => a + b.length, 1)).join('='));
 }
