@@ -1,5 +1,7 @@
 import axios from 'axios';
 
+import { leftPad } from './utils/str-utils.js';
+
 function responseHandler({ data }) {
   (data.centers || []).forEach(center => console.log(center));
 }
@@ -9,8 +11,11 @@ function errorHandler(e) {
 }
 
 export function checkCowin() {
+  const todayDate = new Date();
+  const todayStr = `${todayDate.getDate()}-${leftPad(todayDate.getMonth() + 1, 2, 0, '0')}-${todayDate.getFullYear()}`;
+
   axios
-    .get(`https://cdn-api.co-vin.in/api/v2/appointment/sessions/public/calendarByDistrict?district_id=266&date=21-05-2021`, {
+    .get(`https://cdn-api.co-vin.in/api/v2/appointment/sessions/public/calendarByDistrict?district_id=266&date=${todayStr}`, {
       headers: {
         Accept: 'application/json, text/plain, */*',
         'Accept-Encoding': 'gzip, deflate, br',
