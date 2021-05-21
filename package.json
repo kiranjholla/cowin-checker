@@ -4,6 +4,10 @@
   "description": "A script to check the Co-WIN Portal for vaccination slots.",
   "main": "index.js",
   "type": "module",
+  "dependencies": {
+    "axios": "^0.21.1"
+  },
+  "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
