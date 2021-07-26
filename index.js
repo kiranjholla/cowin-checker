@@ -19,7 +19,7 @@ if (!!district && !isNumeric(district)) {
 
 // Validate Dose
 if (!!dose) {
-  if (!isNumeric(dose) || dose < 0 || dose >= 3) {
+  if (!isNumeric(dose) || +dose < 0 || +dose >= 3) {
     error = `${error}Invalid arguments! Invalid value provided for Dose.\n`;
   }
 }
